@@ -1,0 +1,49 @@
+=head1 NAME
+
+Test::CORE::sleep - Override |sleep| function for testing purpose
+
+=head1 SYNOPSIS
+
+  use Test::CORE::sleep;
+  
+  sleep 1; # takes 1s
+  
+  local $Test::CORE::sleep::DisableSleep = 1;
+  sleep 1; # takes 0s
+
+=head1 DESCRIPTION
+
+Using the C<Test::CORE::sleep> module you can disable the C<sleep>
+core function in the tested code.
+
+=head1 USAGE
+
+By setting a true value to the variable C<$Test::CORE::sleep>, the
+Perl C<sleep> function stops working - it only warns the argument and
+returns soon.
+
+Note that you have to C<use> the C<Test::CORE::sleep> modules
+B<BEFORE> any appearance of the C<sleep> function in the source code.
+
+=head1 HISTORY
+
+=over 4
+
+=item 1.0 (2010-10-26)
+
+First version as C<Test::CORE::sleep>.
+
+=back
+
+=head1 AUTHOR
+
+Wakaba (id:wakabatan) <wakabatan@hatena.ne.jp>.
+
+=head1 LICENSE
+
+Copyright 2010 Hatena <http://www.hatena.ne.jp/>.
+
+This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself.
+
+=cut

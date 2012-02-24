@@ -1,0 +1,43 @@
+=head1 NAME
+
+Test::CORE::rand - Override |rand| function for testing
+
+=head1 SYNOPSIS
+
+  use Test::CORE::rand;
+  
+  local $Test::CORE::rand::RAND_CODE = sub { $_[0] / 2 };
+  is rand, 0.5; # Same as rand(1)
+  is rand 100, 50;
+
+=head1 DESCRIPTION
+
+With C<Test::CORE::rand> you can force the C<rand> core function do
+what you like.  It is particularly useful to test randomly-acting code
+without its randomness.
+
+=head1 USAGE
+
+By setting a C<CODE> reference to the variable
+C<$Test::CORE::rand::RAND_CODE> you can change the behavior of the
+core C<rand> function.  Whenever the C<rand> function is invoked, the
+C<CODE> reference is called with the argument, which is the argument
+to the C<rand> function, if specified, or C<1> otherwise.  The
+function is expected to return a value which should be returned by
+C<rand>.
+
+Note that you have to C<use> the C<Test::CORE::rand> modules B<BEFORE>
+any appearance of the C<rand> function in the source code.
+
+=head1 AUTHOR
+
+Wakaba (id:wakabatan) <wakabatan@hatena.ne.jp>
+
+=head1 LICENSE
+
+Copyright 2010 Hatena <http://www.hatena.ne.jp/>
+
+This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself.
+
+=cut

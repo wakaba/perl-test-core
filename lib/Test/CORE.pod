@@ -1,0 +1,45 @@
+=head1 NAME
+
+Test::CORE - Replacing Perl CORE functions for testing purposes
+
+=head1 DESCRIPTION
+
+The C<Test::CORE> modules replace some of Perl CORE functions for the
+purpose of writing test codes.  The modules include:
+
+=over 4
+
+=item L<Test::CORE::rand>
+
+=item L<Test::CORE::sleep>
+
+=item L<Test::CORE::system>
+
+=back
+
+=head1 SEE ALSO
+
+L<Test::ForkTimeline> - replacing the C<time> function.
+
+=head1 HISTORY
+
+=over 4
+
+=item 1.0 (2010-10-26)
+
+Packaged.
+
+=back
+
+=head1 AUTHOR
+
+Wakaba (id:wakabatan) <wakabatan@hatena.ne.jp>.
+
+=head1 LICENSE
+
+Copyright 2010 Hatena <http://www.hatena.ne.jp/>.
+
+This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself.
+
+=cut

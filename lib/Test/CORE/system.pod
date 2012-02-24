@@ -1,0 +1,38 @@
+=head1 NAME
+
+Test::CORE::system - Define your own command handler for testing
+
+=head1 SYNOPSIS
+
+  use Test::CORE::system;
+  
+  Test::CORE::system->register_command_handler(
+      pattern => qr/^perl(?:doc)?$/,
+      code => sub {
+          my ($command, $result) = @_;
+          print $command->args->[0], "\n";
+          $result->return_value(1);
+      },
+  );
+
+=head1 DESCRIPTION
+
+The C<Test::CORE::system> module redefine C<system> and C<exec> core
+functions.  By default it only reports an execution error.  By
+registering command handlers, subsequent command invocations via these
+functions are replaced by execution of registered handlers.
+
+=head1 AUTHORS
+
+Wakaba <wakabatan@hatena.ne.jp>.
+
+id:sano.
+
+=head1 LICENSE
+
+Copyright 2010-2012 Hatena <http://www.hatena.ne.jp/>.
+
+This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself.
+
+=cut
