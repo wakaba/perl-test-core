@@ -50,6 +50,19 @@ sub register_command_handler {
     push @CommandHandlers, \%args;
 }
 
+sub register_allowed_command {
+    my ($class, %args) = @_;
+    my $code = sub {
+        my ($command, $result) = @_;
+        my $return = CORE::system($command->command, @{$command->args});
+        $result->return_value($return);
+    };
+    $class->register_command_handler(
+        code => $code,
+        %args,
+    );
+}
+
 sub handle_command {
     my ($cmd => $result) = @_;
     my $command = $cmd->command;

@@ -5,7 +5,7 @@ use Path::Class;
 use lib file(__FILE__)->dir->parent->parent->subdir('lib')->stringify;
 use lib glob file(__FILE__)->dir->parent->parent->subdir('modules', '*', 'lib')->stringify;
 use base qw(Test::Class);
-use Test::MoreMore;
+use Test::More;
 use Test::CORE::system;
 use File::Temp qw(tempfile);
 
@@ -20,28 +20,45 @@ sub _register : Test(9) {
     );
 
     is $last_cmd, undef;
-    
+
     system $command, 'abc';
     isa_ok $last_cmd, 'Test::CORE::system::Command';
     is $last_cmd->command, $command;
-    eq_or_diff $last_cmd->args, ['abc'];
-    ng $last_cmd->background;
-    
+    is_deeply $last_cmd->args, ['abc'];
+    ok(not $last_cmd->background);
+
     system $command . ' abcdef';
     isa_ok $last_cmd, 'Test::CORE::system::Command';
     is $last_cmd->command, $command;
-    eq_or_diff $last_cmd->args, ['abcdef'];
-    ng $last_cmd->background;
+    is_deeply $last_cmd->args, ['abcdef'];
+    ok(not $last_cmd->background);
+}
+
+sub _register_allowed_command : Test(3) {
+    my $command = 'echo';
+
+    my $result = system $command, 'abc';
+    is $result, undef;
+
+    Test::CORE::system->register_allowed_command(
+        pattern => qr{\Q$command\E},
+    );
+
+    $result = system $command, 'abc';
+    is $result, 0;
+
+    $result = system 'ls', '.';
+    is $result, undef;
 }
 
 sub _default : Test(2) {
     my (undef, $file_name) = tempfile;
     unlink $file_name;
-    ng -f $file_name;
+    ok(not -f $file_name);
 
     system 'echo 1243 > ' . $file_name;
 
-    ng -f $file_name;
+    ok(not -f $file_name);
 }
 
 __PACKAGE__->runtests;
