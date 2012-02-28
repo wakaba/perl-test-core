@@ -54,7 +54,13 @@ sub register_allowed_command {
     my ($class, %args) = @_;
     my $code = sub {
         my ($command, $result) = @_;
-        my $return = CORE::system($command->command, @{$command->args});
+        my $return;
+        if ($command->source eq 'command_line') {
+            $return = CORE::system($command->command_line);
+        }
+        elsif ($command->source eq 'args') {
+            $return = CORE::system($command->command, @{$command->args});
+        }
         $result->return_value($return);
     };
     $class->register_command_handler(

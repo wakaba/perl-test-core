@@ -5,7 +5,7 @@ use Path::Class;
 use lib file(__FILE__)->dir->parent->parent->subdir('lib')->stringify;
 use lib glob file(__FILE__)->dir->parent->parent->subdir('modules', '*', 'lib')->stringify;
 use base qw(Test::Class);
-use Test::MoreMore;
+use Test::More;
 use Test::CORE::system::Command;
 
 sub _parse : Test(40) {
@@ -24,7 +24,7 @@ sub _parse : Test(40) {
         my $input = delete $_->{input};
         my $cmd = Test::CORE::system::Command->new_from_string($input);
         for my $method (keys %$_) {
-            eq_or_diff $cmd->$method, $_->{$method}, '_parse ' . $input;
+            is_deeply $cmd->$method, $_->{$method}, '_parse ' . $input;
         }
     }
 }
@@ -37,7 +37,7 @@ sub _args : Test(8) {
         my $input = delete $_->{input};
         my $cmd = Test::CORE::system::Command->new_from_arrayref($input);
         for my $method (keys %$_) {
-            eq_or_diff $cmd->$method, $_->{$method};
+            is_deeply $cmd->$method, $_->{$method};
         }
     }
 }
