@@ -38,7 +38,7 @@ sub source {
 sub _parse_command_line {
     my $self = shift;
     my $s = $self->{command_line};
-    
+
     if ($s =~ /\s*&\s*$/ and not $s =~ /(?:^|[^\\])\\(?:\\\\)*&\s*$/) {
         $s =~ s/\s*&\s*$//;
         $self->{background} = 1;
@@ -59,17 +59,21 @@ sub _parse_command_line {
     $self->{args} = \@args;
 }
 
+sub command_line {
+    return $_[0]->{command_line};
+}
+
 sub command {
     my $self = shift;
     $self->_parse_command_line unless $self->{_parsed};
-    
+
     return $self->{command}; # or undef
 }
 
 sub args {
     my $self = shift;
     $self->_parse_command_line unless $self->{_parsed};
-    
+
     return $self->{args};
 }
 

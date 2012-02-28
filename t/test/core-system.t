@@ -34,20 +34,29 @@ sub _register : Test(9) {
     ok(not $last_cmd->background);
 }
 
-sub _register_allowed_command : Test(3) {
+sub _register_allowed_command : Test(6) {
     my $command = 'echo';
 
+    # not registered
     my $result = system $command, 'abc';
+    is $result, undef;
+    $result = system "$command abc";
     is $result, undef;
 
     Test::CORE::system->register_allowed_command(
         pattern => qr{\Q$command\E},
     );
 
+    # registered
     $result = system $command, 'abc';
     is $result, 0;
+    $result = system "$command abc";
+    is $result, 0;
 
+    # not registered
     $result = system 'ls', '.';
+    is $result, undef;
+    $result = system 'ls .';
     is $result, undef;
 }
 
