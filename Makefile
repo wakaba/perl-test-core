@@ -40,7 +40,7 @@ test: test-deps test-main
 test-deps: local-submodules pmb-install
 
 test-main:
-	$(PERL_ENV) $(PROVE) t/*.t
+	$(PERL_ENV) $(PROVE) t/test/*.t
 
 # ------ Packaging ------
 
