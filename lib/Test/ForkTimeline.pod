@@ -1,0 +1,59 @@
+=head1 NAME
+
+Test::ForkTimeline - Fork the timeline of a block
+
+=head1 SYNOPSIS
+
+  use Test::ForkTimeline;
+  
+  fork_timeline {
+    is time, 10000000;
+  } 10000000;
+
+=head1 DESCRIPTION
+
+With the C<fork_timeline> block provided by the C<Test::ForkTimeline>
+module controls you can fix the time of the world in the block to a
+specific point of the timeline.  It is particularly useful in testing
+codes that depend on the time.
+
+=head1 BLOCK
+
+=over 4
+
+=item fork_timeline { ...CODE... } TIME;
+
+Within the code block the Perl C<time> function returns I<TIME>.
+
+=item stop_time;
+
+Stop the time at the current C<time>.
+
+=back
+
+Note that the C<Test::ForkTimeline> module must be loaded before any
+code that calls the C<time> function.  For example,
+
+  # Bad example
+  sub mytime { time }
+  
+  use Test::ForkTimeline;
+  
+  fork_timeline { print mytime } 1000000;
+
+... would B<NOT> return C<1000000> because the C<time> function call
+is parsed and bound to the real C<time> function by Perl before the
+C<Test::ForkTimeline> module is loaded.
+
+=head1 AUTHOR
+
+Wakaba (id:wakabatan) <wakabatan@hatena.ne.jp>
+
+=head1 LICENSE
+
+Copyright 2010 Hatena <http://www.hatena.ne.jp/>
+
+This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself.
+
+=cut

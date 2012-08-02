@@ -15,6 +15,8 @@ purpose of writing test codes.  The modules include:
 
 =item L<Test::CORE::system>
 
+=item L<Test::ForkTimeline>
+
 =back
 
 =head1 SEE ALSO
